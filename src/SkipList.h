@@ -7,8 +7,7 @@ class SkipList {
 
         House house;
 
-        Node(string state, int val, int level) {
-            house = House(state, val);  
+        Node(std::string state, int val, int level) : house(state, val) {
             next.resize(level + 1, nullptr);
         }
     };

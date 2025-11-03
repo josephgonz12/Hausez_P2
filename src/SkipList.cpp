@@ -1,30 +1,97 @@
 #include "SkipList.h"
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
-int SkipList::getRandLevel(int maxLevel) {
+SkipList::SkipList() {
+    maxLevel = 0;
+    prob = 0.5;
+    const int maxSize = 16;
+    head = new Node("dummy", -1, maxSize);
+}
+
+SkipList::~SkipList() {
+    Node* curr = head->next[0];
+    while (curr != nullptr) {
+        Node* temp = curr;
+        curr = curr->next[0];
+        delete temp;
+    }
+    delete head;
+}
+
+int SkipList::getRandLevel() {
     int level = 0;
+    int maxSize = head->next.size() - 1;
 
-    while (rand() % 2 == 1 && level < maxLevel) {
+    while ((rand() / (double)RAND_MAX) < prob && level < maxSize) {
         level++;
     }
     return level;
 }
 
+
 void SkipList::insert(std::string state, int price){
+    std::vector<Node*> update(head->next.size(), nullptr);
+    Node* curr = head;
+
+    for (int i = maxLevel; i >= 0; i--) {
+        while (curr->next[i] != nullptr && curr->next[i]->house.price < price) {
+            curr = curr->next[i];
+        }
+        update[i] = curr;
+    }
+
+    
+    int nextLevel = getRandLevel();
+
+    if (nextLevel > maxLevel) {
+        for (int i = maxLevel + 1; i <= nextLevel; i++) {
+            update[i] = head;
+        }
+        maxLevel = nextLevel;
+    }
+
+    Node* newNode = new Node(state, price, nextLevel);
+
+    for (int i = 0; i <= nextLevel; i++) {
+        newNode->next[i] = update[i]->next[i];
+        update[i]->next[i] = newNode;
+    }
 
 }
 
 std::vector<House> SkipList::getCheapest(int num) {
-
+    std::vector<House> cheapestHouses;
+    Node* curr = head->next[0];
+    for (int i = 0; i < num; i++) {
+        cheapestHouses.push_back(curr->house);
+        curr = curr->next[0];
+    }
+    return cheapestHouses;
 }
 
 std::vector<House> SkipList::filterByState(std::string state) {
-
+    std::vector<House> byState;
+    Node* curr = head->next[0];
+    while (curr != nullptr) {
+        if (curr->house.state == state) {
+            byState.push_back(curr->house);
+        }
+        curr = curr->next[0];
+    }
+    return byState;
 }
 
 void SkipList::display() {
-    
+    for (int i = maxLevel; i >= 0; i--) {
+        std::cout << "Level " << i << ": Head-> ";
+        Node* curr = head->next[i];
+        while (curr != nullptr) {
+            std::cout << "(" << curr->house.state << ", " << curr->house.price << ") -> ";
+            curr = curr->next[i];
+        }
+        std::cout << "" << std::endl;
+    }
+    std::cout << "-------------" << std::endl;
 }
 
 
