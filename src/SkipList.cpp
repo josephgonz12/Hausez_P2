@@ -5,7 +5,7 @@ SkipList::SkipList() {
     maxLevel = 0;
     prob = 0.5;
     const int maxSize = 16;
-    head = new Node("dummy", -1, maxSize);
+    head = new Node("dummy", -1, maxSize, 0, 0, 0);
 }
 
 SkipList::~SkipList() {
@@ -29,7 +29,7 @@ int SkipList::getRandLevel() {
 }
 
 
-void SkipList::insert(std::string state, int price){
+void SkipList::insert(std::string state, int price, int beds, int bath, int zip_code){
     std::vector<Node*> update(head->next.size(), nullptr);
     Node* curr = head;
 
@@ -50,7 +50,7 @@ void SkipList::insert(std::string state, int price){
         maxLevel = nextLevel;
     }
 
-    Node* newNode = new Node(state, price, nextLevel);
+    Node* newNode = new Node(state, price, nextLevel, beds, bath, zip_code);
 
     for (int i = 0; i <= nextLevel; i++) {
         newNode->next[i] = update[i]->next[i];
@@ -69,16 +69,16 @@ std::vector<House> SkipList::getCheapest(int num) {
     return cheapestHouses;
 }
 
-std::vector<House> SkipList::filterByState(std::string state) {
-    std::vector<House> byState;
+std::vector<House> SkipList::filterByCity(std::string city) {
+    std::vector<House> byCity;
     Node* curr = head->next[0];
     while (curr != nullptr) {
-        if (curr->house.state == state) {
-            byState.push_back(curr->house);
+        if (curr->house.city == city) {
+            byCity.push_back(curr->house);
         }
         curr = curr->next[0];
     }
-    return byState;
+    return byCity;
 }
 
 void SkipList::display() {
@@ -86,7 +86,7 @@ void SkipList::display() {
         std::cout << "Level " << i << ": Head-> ";
         Node* curr = head->next[i];
         while (curr != nullptr) {
-            std::cout << "(" << curr->house.state << ", " << curr->house.price << ") -> ";
+            std::cout << "(" << curr->house.city << ", " << curr->house.price << ") -> ";
             curr = curr->next[i];
         }
         std::cout << "" << std::endl;

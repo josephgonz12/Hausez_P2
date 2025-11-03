@@ -7,7 +7,7 @@ class SkipList {
 
         House house;
 
-        Node(std::string state, int val, int level) : house(state, val) {
+        Node(std::string city, int val, int level, int beds, int baths, int zip_code) : house(val, beds, baths, city, zip_code) {
             next.resize(level + 1, nullptr);
         }
     };
@@ -21,9 +21,9 @@ public:
     SkipList();
     ~SkipList();
 
-    void insert(std::string state, int price);
+    void insert(std::string city, int price, int beds, int bath, int zip_code);
     std::vector<House> getCheapest(int num);
-    std::vector<House> filterByState(std::string state);
+    std::vector<House> filterByCity(std::string city);
     void display();
 
 };

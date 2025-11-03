@@ -1,14 +1,13 @@
 #include <string>
 #include "House.h"
 using namespace std;
-House::House(int price, int beds, int baths, string city, int zip_code, int square_feet)
+House::House(int price, int beds, int baths, string city, int zip_code)
 {
     this->price = price;
     this->beds = beds;
     this->baths = baths;
     this->city = city;
     this->zip_code = zip_code;
-    this->square_feet = square_feet;
 }
 
 bool House::operator<(const House& other) const {
