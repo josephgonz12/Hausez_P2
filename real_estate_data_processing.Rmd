@@ -17,6 +17,8 @@ class(real_estate)
 real_estate$prev_sold_date <- NULL
 real_estate$brokered_by <- NULL
 real_estate$status <- NULL
+real_estate$acre_lot <- NULL
+real_estate$street <- NULL
 real_estate <- na.omit(real_estate)
 real_estate <- distinct(real_estate)
 real_estate <- real_estate |> 
@@ -25,7 +27,7 @@ real_estate <- real_estate |>
 ```
 
 ```{r}
-write.csv(real_estate, "realestatedata.csv")
+write.csv(real_estate, "florida_real_estate.csv")
 
 ```
 
