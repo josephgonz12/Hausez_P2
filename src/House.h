@@ -2,10 +2,15 @@
 #include <iostream>
 
 struct House {
-    std::string state;
     int price;
+    int beds;
+    int baths;
+    string city;
+    int zip_code;
+    int square_feet;
 
-    House(std::string state, int p);
+
+    House(int price, int beds, int baths, string city, int zip_code, int square_feet);
     bool operator<(const House& other) const;
     bool operator>(const House& other) const;
     bool operator==(const House& other) const;
