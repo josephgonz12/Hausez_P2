@@ -21,10 +21,7 @@ real_estate <- na.omit(real_estate)
 real_estate <- distinct(real_estate)
 real_estate <- real_estate |> 
   filter(price > 30000, state == "Florida")
-real_estate |> 
-  group_by(state) |> 
-  summarise()
-  
+
 ```
 
 ```{r}
