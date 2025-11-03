@@ -1,4 +1,5 @@
 #include <string>
+#include "House.h"
 using namespace std;
 House::House(int price, int beds, int baths, string city, int zip_code, int square_feet)
 {
