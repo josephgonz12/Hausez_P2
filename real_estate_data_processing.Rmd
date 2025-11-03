@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-This RMD file contains the orginial data, and how it was modified to support our use cases.
+This RMD file contains the original data, and how it was modified to support our use cases.
 
 ```{r}
 library(tidyverse)
