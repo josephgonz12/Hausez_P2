@@ -1,5 +1,6 @@
 #include <string>
 #include "House.h"
+// focus
 using namespace std;
 House::House(int price, int beds, int baths, string city, int zip_code)
 {
