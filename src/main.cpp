@@ -98,7 +98,7 @@ int main() {
             
         }
         if (option == 6){
-            Skip.~SkipList();
+            
             running = false;
         }
         option = 0;
