@@ -31,6 +31,6 @@ int main() {
    
     std::cout <<"There are " << houses.size() << " houses available." << std::endl;
    
-    int num;
-    std::cin >> num;
+    int nums;
+    std::cin >> nums;
 }
