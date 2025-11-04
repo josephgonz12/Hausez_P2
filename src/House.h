@@ -6,8 +6,8 @@ struct House {
     int beds;
     int baths;
     std::string city;
-    int zip_code;
-    string toos;
+    std::string zip_code;
+    
 
     House(int price, int beds, int baths, std::string city, std::string zip_code);
     bool operator<(const House& other) const;

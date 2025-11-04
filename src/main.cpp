@@ -9,12 +9,11 @@
 using namespace std;
 int main() {
     std::cout << "Welcome to Florida Real Estate!" << std::endl;
-    ifstream house_file("../florida_real_estate.csv");
+    ifstream house_file("florida_real_estate.csv");
     string line;
-    vector<House> houses_list;
-    // SkipList skiplist;
+    vector<House> houses;
     getline(house_file, line);
-    getline(house_file, line);
+    
     SkipList Skip;
     int bed_filter;
     int bath_filter;
@@ -38,9 +37,9 @@ int main() {
         getline(iss, zip_code, ',');
         zip_code.erase(std::remove(zip_code.begin(), zip_code.end(), '\"'), zip_code.end());
         getline(iss, square_feet, ',');
-        House temp = House(stoi(price), stoi(bed), stoi(bath), city, stoi(zip_code));
+        House temp = House(stoi(price), stoi(bed), stoi(bath), city, zip_code);
         houses.push_back(temp);
-        Skip.insert(city, stoi(price), stoi(bed), stoi(bath), stoi(zip_code));
+        Skip.insert(city, stoi(price), stoi(bed), stoi(bath), zip_code);
     }
     bed_filter = 0;
     bath_filter = 0;

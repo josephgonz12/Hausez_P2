@@ -5,7 +5,7 @@ SkipList::SkipList() {
     maxLevel = 0;
     prob = 0.5;
     const int maxSize = 16;
-    head = new Node("dummy", -1, maxSize, 0, 0, 0);
+    head = new Node("dummy", -1, maxSize, 0, 0, "0");
 }
 
 SkipList::~SkipList() {
@@ -104,7 +104,7 @@ std::vector<House> SkipList::filterByBaths(int bath_count) {
     return byBaths;
 }
 
-std::vector<House> SkipList::filterByZip(int zip_code) {
+std::vector<House> SkipList::filterByZip(string zip_code) {
     std::vector<House> byZip;
     Node* curr = head->next[0];
     while (curr != nullptr) {
