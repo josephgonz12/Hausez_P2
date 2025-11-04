@@ -6,10 +6,10 @@ struct House {
     int beds;
     int baths;
     std::string city;
-    int zip_code;
+    string zip_code;
 
 
-    House(int price, int beds, int baths, std::string city, int zip_code);
+    House(int price, int beds, int baths, std::string city, string zip_code);
     bool operator<(const House& other) const;
     bool operator>(const House& other) const;
     bool operator==(const House& other) const;

@@ -9,14 +9,14 @@ int main() {
     std::cout << "Welcome to Florida Real Estate!" << std::endl;
     ifstream house_file("../florida_real_estate.csv");
     string line;
-    vector<House> houses;
+    vector<House> houses_list;
     getline(house_file, line);
     while (getline(house_file, line))
     {
         istringstream iss(line);
         string junk, price, bed, bath, city, state, zip_code, square_feet;
         getline(iss, junk, ',');
-        getline(iss, price, ',');
+        getline(iss, p, ',');
         getline(iss, bed, ',');
         getline(iss, bath, ',');
         getline(iss, city, ',');
