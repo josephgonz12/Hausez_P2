@@ -2,31 +2,35 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "House.h"
 using namespace std;
 int main() {
-    std::cout << "Projtest" << std::endl;
-    ifstream house_file("florida_real_estate.csv");
+    std::cout << "Welcome to Florida Real Estate!" << std::endl;
+    ifstream house_file("../florida_real_estate.csv");
     string line;
     vector<House> houses_list;
     getline(house_file, line);
     while (getline(house_file, line))
     {
         istringstream iss(line);
-        string junk, p, bed, bath, city, zip;
+        string junk, price, bed, bath, city, state, zip_code, square_feet;
         getline(iss, junk, ',');
         getline(iss, p, ',');
         getline(iss, bed, ',');
         getline(iss, bath, ',');
         getline(iss, city, ',');
-        getline(iss, zip, ',');
-        int price = std::stoi(p);
-        int beds = stoi(bed);
-        int baths = stoi(bath);
-        auto house = House(price, beds, baths, city, zip);
-        houses_list.push_back(house);
+        city.erase(std::remove(city.begin(), city.end(), '\"'), city.end());
+        getline(iss, state, ',');
+        getline(iss, zip_code, ',');
+        zip_code.erase(std::remove(zip_code.begin(), zip_code.end(), '\"'), zip_code.end());
+        getline(iss, square_feet, ',');
+        House temp = House(stoi(price), stoi(bed), stoi(bath), city, stoi(zip_code));
+        houses.push_back(temp);
     }
-    house_file.close();
-    cout << "Welcome to Florida Real Estate Listings!" << endl;
-    cout << "We have " << houses_list.size() << " houses available." << endl
+   
+    std::cout <<"There are " << houses.size() << " houses available." << std::endl;
+   
+    int nums;
+    std::cin >> nums;
 }
