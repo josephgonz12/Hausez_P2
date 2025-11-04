@@ -11,7 +11,7 @@ int main() {
     std::cout << "Welcome to Florida Real Estate!" << std::endl;
     ifstream house_file("../florida_real_estate.csv");
     string line;
-    vector<House> houses;
+    vector<House> houses_list;
     getline(house_file, line);
     SkipList Skip;
     int bed_filter;
