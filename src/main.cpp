@@ -3,12 +3,15 @@
 #include <sstream>
 #include <vector>
 #include "House.h"
+#include "SkipList.h"
 using namespace std;
 int main() {
-    std::cout << "Projtest" << std::endl;
+    std::cout << "Project 2trass" << std::endl;
     ifstream house_file("florida_real_estate.csv");
     string line;
     vector<House> houses_list;
+    // SkipList skiplist;
+    getline(house_file, line);
     getline(house_file, line);
     while (getline(house_file, line))
     {
@@ -23,10 +26,15 @@ int main() {
         int price = std::stoi(p);
         int beds = stoi(bed);
         int baths = stoi(bath);
+        cout << baths << endl;
         auto house = House(price, beds, baths, city, zip);
+        // skiplist.insert(city, price, beds, baths, zip);
         houses_list.push_back(house);
+
     }
-    house_file.close();
+   
     cout << "Welcome to Florida Real Estate Listings!" << endl;
-    cout << "We have " << houses_list.size() << " houses available." << endl
+    cout << "We have " << houses_list.size() << " houses available." << endl;
+   
+    return 0;
 }

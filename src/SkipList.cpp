@@ -29,7 +29,7 @@ int SkipList::getRandLevel() {
 }
 
 
-void SkipList::insert(std::string state, int price, int beds, int bath, int zip_code){
+void SkipList::insert(std::string state, int price, int beds, int bath, std::string zip_code){
     std::vector<Node*> update(head->next.size(), nullptr);
     Node* curr = head;
 
