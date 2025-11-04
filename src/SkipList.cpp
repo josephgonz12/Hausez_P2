@@ -80,6 +80,41 @@ std::vector<House> SkipList::filterByCity(std::string city) {
     }
     return byCity;
 }
+std::vector<House> SkipList::filterByBeds(int bed_count) {
+    std::vector<House> byBeds;
+    Node* curr = head->next[0];
+    while (curr != nullptr) {
+        if (curr->house.beds == bed_count) {
+            byBeds.push_back(curr->house);
+        }
+        curr = curr->next[0];
+    }
+    return byBeds;
+}
+
+std::vector<House> SkipList::filterByBaths(int bath_count) {
+    std::vector<House> byBaths;
+    Node* curr = head->next[0];
+    while (curr != nullptr) {
+        if (curr->house.baths == bath_count) {
+            byBaths.push_back(curr->house);
+        }
+        curr = curr->next[0];
+    }
+    return byBaths;
+}
+
+std::vector<House> SkipList::filterByZip(int zip_code) {
+    std::vector<House> byZip;
+    Node* curr = head->next[0];
+    while (curr != nullptr) {
+        if (curr->house.zip_code == zip_code) {
+            byZip.push_back(curr->house);
+        }
+        curr = curr->next[0];
+    }
+    return byZip;
+}
 
 void SkipList::display() {
     for (int i = maxLevel; i >= 0; i--) {

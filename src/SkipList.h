@@ -24,6 +24,9 @@ public:
     void insert(std::string city, int price, int beds, int bath, int zip_code);
     std::vector<House> getCheapest(int num);
     std::vector<House> filterByCity(std::string city);
+    std::vector<House> filterByBeds(int bed_count);
+    std::vector<House> filterByBaths(int bath_count);
+    std::vector<House> filterByZip(int zip_code);
     void display();
 
 };
