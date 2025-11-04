@@ -25,13 +25,14 @@
         },
         {
             "type": "shell",
-            "label": "build Hausez (main+House)",
+            "label": "build Hausez (main+House+SkipList)",
             "command": "C:\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
                 "${workspaceFolder}\\src\\main.cpp",
                 "${workspaceFolder}\\src\\House.cpp",
+                "${workspaceFolder}\\src\\SkipList.cpp",
                 "-o",
                 "${workspaceFolder}\\src\\Hausez.exe"
             ],
@@ -45,7 +46,7 @@
                 "kind": "build",
                 "isDefault": false
             },
-            "detail": "Builds main.cpp and House.cpp into Hausez.exe"
+            "detail": "Builds main.cpp, House.cpp, and SkipList.cpp into Hausez.exe"
         }
     ],
     "version": "2.0.0"
