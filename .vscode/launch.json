@@ -1,26 +1,21 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Run Hausez.exe (MSVC)",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/bin/Hausez.exe",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "console": "externalTerminal",
-            "preLaunchTask": "Build (MSVC) all src/*.cpp"
-        },
-        {
-            "name": "C/C++: g++.exe build and debug active file",
+            "name": "Build and Debug Hausez (main+House+SkipList)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${workspaceFolder}\\src\\Hausez.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}\\src",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
+            "preLaunchTask": "build Hausez (main+House+SkipList)",
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe",
             "setupCommands": [
@@ -28,14 +23,8 @@
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "C/C++: g++.exe build active file"
+            ]
         }
     ]
 }
