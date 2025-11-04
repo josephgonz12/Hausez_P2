@@ -24,7 +24,6 @@ int main() {
     
     while (getline(house_file, line))
     {
-        
         istringstream iss(line);
         string junk, price, bed, bath, city, state, zip_code, square_feet;
         getline(iss, junk, ',');
@@ -101,7 +100,7 @@ int main() {
             
         }
         if (option == 6){
-            Skip.~SkipList();
+            
             running = false;
         }
         option = 0;
