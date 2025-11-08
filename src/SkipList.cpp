@@ -59,13 +59,32 @@ void SkipList::insert(std::string state, int price, int beds, int bath, std::str
 
 }
 
-std::vector<House> SkipList::getCheapest(int num) {
+std::vector<House> SkipList::getCheapest(int num, int beds, int baths, std::string city, std::string zip_code) {
     std::vector<House> cheapestHouses;
     Node* curr = head->next[0];
-    for (int i = 0; i < num; i++) {
-        cheapestHouses.push_back(curr->house);
+    
+    while (curr != nullptr && cheapestHouses.size() < num) {
+        bool matched = true;
+        
+        if (beds != 0 && curr->house.beds != beds) {
+            matched = false;
+        }
+        if (baths != 0 && curr->house.baths != baths) {
+            matched = false;
+        }
+        if (city != "" && curr->house.city != city) {
+            matched = false;
+        }
+        if (zip_code != "" && curr->house.zip_code != zip_code) {
+            matched = false;
+        }
+        
+        if (matched == true) {
+            cheapestHouses.push_back(curr->house);
+        }
         curr = curr->next[0];
     }
+    
     return cheapestHouses;
 }
 

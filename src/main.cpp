@@ -17,7 +17,7 @@ int main() {
     SkipList Skip;
     int bed_filter;
     int bath_filter;
-    int zip_filter;
+    string zip_filter = "";
     string city_filter = "";
     bool running = true;
     
@@ -43,14 +43,14 @@ int main() {
     }
     bed_filter = 0;
     bath_filter = 0;
-    zip_filter = 0;
+    zip_filter = "";
     while (running) {
         std::cout <<"There are " << houses.size() << " houses available." << std::endl;
         std::cout << "Current Filters: " << std::endl;
         std::cout << "City: " << (city_filter == "" ? "Any City" : city_filter) << std::endl;
         std::cout << "Beds: " << (bed_filter == 0 ? "Any" : to_string(bed_filter)) << std::endl;
         std::cout << "Baths: " << (bath_filter == 0 ? "Any" : to_string(bath_filter)) << std::endl;
-        std::cout << "Zip Code: " << (zip_filter == 0 ? "Any" : to_string(zip_filter)) << std::endl;    
+        std::cout << "Zip Code: " << (zip_filter == "" ? "Any" : zip_filter) << std::endl;    
         std::cout << "1: Set City" << std::endl;
         std::cout << "2: Set Beds" << std::endl;
         std::cout << "3: Set Baths" << std::endl;
@@ -84,7 +84,7 @@ int main() {
             int ds_option;
             std::cin >> ds_option;
             if (ds_option == 1){
-                auto cheapest = Skip.getCheapest(5);
+                auto cheapest = Skip.getCheapest(5, bed_filter, bath_filter, city_filter, zip_filter);
                 std::cout << "Top 5 Cheapest Houses:" << std::endl;
                 cout << "House 1: Price: $" << cheapest[0].price << ", Beds: " << cheapest[0].beds << ", Baths: " << cheapest[0].baths << ", City: " << cheapest[0].city << ", Zip Code: " << cheapest[0].zip_code << endl;
                 cout << "House 2: Price: $" << cheapest[1].price << ", Beds: " << cheapest[1].beds << ", Baths: " << cheapest[1].baths << ", City: " << cheapest[1].city << ", Zip Code: " << cheapest[1].zip_code << endl;
