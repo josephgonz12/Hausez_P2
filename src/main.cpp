@@ -6,6 +6,8 @@
 #include "House.h"
 #include "SkipList.h"
 #include <stdlib.h>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 int main() {
@@ -14,14 +16,13 @@ int main() {
     string line;
     vector<House> houses;
     getline(house_file, line);
-    
     SkipList Skip;
     int bed_filter;
     int bath_filter;
     string zip_filter = "";
     string city_filter = "";
     bool running = true;
-    
+    std::chrono::steady_clock::duration skiplist_insert_total_duration{};
     while (getline(house_file, line))
     {
         istringstream iss(line);
@@ -40,12 +41,18 @@ int main() {
         getline(iss, square_feet, ',');
         House temp = House(stoi(price), stoi(bed), stoi(bath), city, zip_code);
         houses.push_back(temp);
+        auto start = std::chrono::steady_clock::now();
         Skip.insert(city, stoi(price), stoi(bed), stoi(bath), zip_code);
+        auto end = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::duration insert_duration = end - start;
+        skiplist_insert_total_duration += insert_duration;
     }
+    auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(skiplist_insert_total_duration).count();
     bed_filter = 0;
     bath_filter = 0;
     zip_filter = "";
     std::cout <<"There are " << houses.size() << " houses available." << std::endl;
+    std::cout << "Total time to insert houses into Skip List: " << total_ms << " ms" << std::endl;
     while (running) {
         
         std::cout << "Current Filters: " << std::endl;
