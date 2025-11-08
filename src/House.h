@@ -1,11 +1,15 @@
-#include <string>
+#pragma once
 #include <iostream>
-
+using namespace std;
 struct House {
-    std::string state;
     int price;
+    int beds;
+    int baths;
+    std::string city;
+    std::string zip_code;
+    
 
-    House(std::string state, int p);
+    House(int price, int beds, int baths, std::string city, std::string zip_code);
     bool operator<(const House& other) const;
     bool operator>(const House& other) const;
     bool operator==(const House& other) const;

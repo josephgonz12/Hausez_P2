@@ -1,8 +1,14 @@
+#include <string>
 #include "House.h"
-
-House::House(std::string state, int price) {
-    this->state = state;
+// focus
+using namespace std;
+House::House(int price, int beds, int baths, std::string city, std::string zip_code)
+{
     this->price = price;
+    this->beds = beds;
+    this->baths = baths;
+    this->city = city;
+    this->zip_code = zip_code;
 }
 
 bool House::operator<(const House& other) const {
