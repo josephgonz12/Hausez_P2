@@ -9,7 +9,7 @@ HouseHashMap::HouseHashMap() {
 
 // Add a house to the map
 void HouseHashMap::insert(const House& house){
-  cityMap[house.state].push_back(house);
+  cityMap[house.city].push_back(house);
 
 }
 
