@@ -6,6 +6,7 @@
 #include "House.h"
 #include "SkipList.h"
 #include <stdlib.h>
+
 using namespace std;
 int main() {
     std::cout << "Welcome to Florida Real Estate!" << std::endl;
@@ -44,8 +45,9 @@ int main() {
     bed_filter = 0;
     bath_filter = 0;
     zip_filter = "";
+    std::cout <<"There are " << houses.size() << " houses available." << std::endl;
     while (running) {
-        std::cout <<"There are " << houses.size() << " houses available." << std::endl;
+        
         std::cout << "Current Filters: " << std::endl;
         std::cout << "City: " << (city_filter == "" ? "Any City" : city_filter) << std::endl;
         std::cout << "Beds: " << (bed_filter == 0 ? "Any" : to_string(bed_filter)) << std::endl;
@@ -55,7 +57,7 @@ int main() {
         std::cout << "2: Set Beds" << std::endl;
         std::cout << "3: Set Baths" << std::endl;
         std::cout << "4: Set Zip Code" << std::endl;
-        std::cout << "5: View Top 5 Cheapest Houses" << std::endl;
+        std::cout << "5: View Cheapest Houses With Filter" << std::endl;
         std::cout << "6: Exit" << std::endl;
         std::cout << "Select an option: ";
         int option;
@@ -64,33 +66,44 @@ int main() {
         if (option == 1){
             std::cout << "Enter City Name: ";
             std::cin >> city_filter;
+            system("cls");
         }
         if (option == 2){
             std::cout << "Enter Number of Beds: ";
             std::cin >> bed_filter;
+            system("cls");
         }
         if (option == 3){
             std::cout << "Enter Number of Baths: ";
             std::cin >> bath_filter;
+            system("cls");
         }
         if (option == 4){
             std::cout << "Enter Zip Code: ";
             std::cin >> zip_filter;
+            system("cls");
         }
         if (option == 5){
+            int house_num;
+            std::cout << "Enter the number of houses to view: ";
+            std::cin >> house_num;
             std::cout << "Which data structure would you like to use?" << std::endl;
             std::cout << "1: Skip List" << std::endl;
             std::cout << "2: Heap" << std::endl;
+            std::cout << "Select an option: ";
             int ds_option;
             std::cin >> ds_option;
             if (ds_option == 1){
-                auto cheapest = Skip.getCheapest(5, bed_filter, bath_filter, city_filter, zip_filter);
-                std::cout << "Top 5 Cheapest Houses:" << std::endl;
-                cout << "House 1: Price: $" << cheapest[0].price << ", Beds: " << cheapest[0].beds << ", Baths: " << cheapest[0].baths << ", City: " << cheapest[0].city << ", Zip Code: " << cheapest[0].zip_code << endl;
-                cout << "House 2: Price: $" << cheapest[1].price << ", Beds: " << cheapest[1].beds << ", Baths: " << cheapest[1].baths << ", City: " << cheapest[1].city << ", Zip Code: " << cheapest[1].zip_code << endl;
-                cout << "House 3: Price: $" << cheapest[2].price << ", Beds: " << cheapest[2].beds << ", Baths: " << cheapest[2].baths << ", City: " << cheapest[2].city << ", Zip Code: " << cheapest[2].zip_code << endl;
-                cout << "House 4: Price: $" << cheapest[3].price << ", Beds: " << cheapest[3].beds << ", Baths: " << cheapest[3].baths << ", City: " << cheapest[3].city << ", Zip Code: " << cheapest[3].zip_code << endl;
-                cout << "House 5: Price: $" << cheapest[4].price << ", Beds: " << cheapest[4].beds << ", Baths: " << cheapest[4].baths << ", City: " << cheapest[4].city << ", Zip Code: " << cheapest[4].zip_code << endl;
+                auto cheapest = Skip.getCheapest(house_num, bed_filter, bath_filter, city_filter, zip_filter);
+                std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
+                for (size_t i = 0; i < cheapest.size(); i++) {
+                    cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                }
+                // cout << "House 1: Price: $" << cheapest[0].price << ", Beds: " << cheapest[0].beds << ", Baths: " << cheapest[0].baths << ", City: " << cheapest[0].city << ", Zip Code: " << cheapest[0].zip_code << endl;
+                // cout << "House 2: Price: $" << cheapest[1].price << ", Beds: " << cheapest[1].beds << ", Baths: " << cheapest[1].baths << ", City: " << cheapest[1].city << ", Zip Code: " << cheapest[1].zip_code << endl;
+                // cout << "House 3: Price: $" << cheapest[2].price << ", Beds: " << cheapest[2].beds << ", Baths: " << cheapest[2].baths << ", City: " << cheapest[2].city << ", Zip Code: " << cheapest[2].zip_code << endl;
+                // cout << "House 4: Price: $" << cheapest[3].price << ", Beds: " << cheapest[3].beds << ", Baths: " << cheapest[3].baths << ", City: " << cheapest[3].city << ", Zip Code: " << cheapest[3].zip_code << endl;
+                // cout << "House 5: Price: $" << cheapest[4].price << ", Beds: " << cheapest[4].beds << ", Baths: " << cheapest[4].baths << ", City: " << cheapest[4].city << ", Zip Code: " << cheapest[4].zip_code << endl;
             }
             cout << "1: Go Back to Main Menu" << endl;
             int back_option;
