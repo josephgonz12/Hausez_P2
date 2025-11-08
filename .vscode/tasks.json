@@ -61,7 +61,7 @@
         },
         {
             "type": "shell",
-            "label": "build Hausez (main+House+SkipList)",
+            "label": "build Hausez (main+House+SkipList+HouseHashMap)",
             "command": "C:\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
@@ -69,6 +69,7 @@
                 "${workspaceFolder}\\src\\main.cpp",
                 "${workspaceFolder}\\src\\House.cpp",
                 "${workspaceFolder}\\src\\SkipList.cpp",
+                "${workspaceFolder}\\src\\HouseHashMap.cpp",
                 "-o",
                 "${workspaceFolder}\\src\\Hausez.exe"
             ],

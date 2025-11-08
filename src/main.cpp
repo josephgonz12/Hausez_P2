@@ -9,7 +9,6 @@
 #include <chrono>
 #include <thread>
 
-using namespace std;
 int main() {
     std::cout << "Welcome to Florida Real Estate!" << std::endl;
     ifstream house_file("florida_real_estate.csv");
