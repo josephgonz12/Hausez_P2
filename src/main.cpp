@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "House.h"
 #include "SkipList.h"
+#include "HouseHashMap.h"
 #include <stdlib.h>
 #include <chrono>
 #include <thread>
@@ -16,12 +17,14 @@ int main() {
     vector<House> houses;
     getline(house_file, line);
     SkipList Skip;
+    HouseHashMap HouseMap;
     int bed_filter;
     int bath_filter;
     string zip_filter = "";
     string city_filter = "";
     bool running = true;
     std::chrono::steady_clock::duration skiplist_insert_total_duration{};
+    std::chrono::steady_clock::duration hashmap_insert_total_duration{};
     while (getline(house_file, line))
     {
         istringstream iss(line);
@@ -40,18 +43,25 @@ int main() {
         getline(iss, square_feet, ',');
         House temp = House(stoi(price), stoi(bed), stoi(bath), city, zip_code);
         houses.push_back(temp);
-        auto start = std::chrono::steady_clock::now();
+        auto map_start = std::chrono::steady_clock::now();
+        HouseMap.insert(temp);
+        auto map_end = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::duration map_insert_duration = map_end - map_start;
+        auto skip_start = std::chrono::steady_clock::now();
         Skip.insert(city, stoi(price), stoi(bed), stoi(bath), zip_code);
-        auto end = std::chrono::steady_clock::now();
-        std::chrono::steady_clock::duration insert_duration = end - start;
-        skiplist_insert_total_duration += insert_duration;
+        auto skip_end = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::duration skip_insert_duration = skip_end - skip_start;
+        skiplist_insert_total_duration += skip_insert_duration;
+        hashmap_insert_total_duration += map_insert_duration;
     }
-    auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(skiplist_insert_total_duration).count();
+    auto total_skip__ms = std::chrono::duration_cast<std::chrono::milliseconds>(skiplist_insert_total_duration).count();
+    auto total_map__ms = std::chrono::duration_cast<std::chrono::milliseconds>(hashmap_insert_total_duration).count();
     bed_filter = 0;
     bath_filter = 0;
     zip_filter = "";
     std::cout <<"There are " << houses.size() << " houses available." << std::endl;
-    std::cout << "Total time to insert houses into Skip List: " << total_ms << " ms" << std::endl;
+    std::cout << "Total time to insert houses into Skip List: " << total_skip__ms << " ms" << std::endl;
+    std::cout << "Total time to insert houses into Hash Map: " << total_map__ms << " ms" << std::endl;
     while (running) {
         
         std::cout << "Current Filters: " << std::endl;
@@ -110,12 +120,22 @@ int main() {
                 for (size_t i = 0; i < cheapest.size(); i++) {
                     cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
                 }
-                // cout << "House 1: Price: $" << cheapest[0].price << ", Beds: " << cheapest[0].beds << ", Baths: " << cheapest[0].baths << ", City: " << cheapest[0].city << ", Zip Code: " << cheapest[0].zip_code << endl;
-                // cout << "House 2: Price: $" << cheapest[1].price << ", Beds: " << cheapest[1].beds << ", Baths: " << cheapest[1].baths << ", City: " << cheapest[1].city << ", Zip Code: " << cheapest[1].zip_code << endl;
-                // cout << "House 3: Price: $" << cheapest[2].price << ", Beds: " << cheapest[2].beds << ", Baths: " << cheapest[2].baths << ", City: " << cheapest[2].city << ", Zip Code: " << cheapest[2].zip_code << endl;
-                // cout << "House 4: Price: $" << cheapest[3].price << ", Beds: " << cheapest[3].beds << ", Baths: " << cheapest[3].baths << ", City: " << cheapest[3].city << ", Zip Code: " << cheapest[3].zip_code << endl;
-                // cout << "House 5: Price: $" << cheapest[4].price << ", Beds: " << cheapest[4].beds << ", Baths: " << cheapest[4].baths << ", City: " << cheapest[4].city << ", Zip Code: " << cheapest[4].zip_code << endl;
+            
                 std::cout << "Time taken to fetch houses using Skip List: " << total_ms << " ms" << std::endl;
+            }
+            if (ds_option == 2){
+                auto start = std::chrono::steady_clock::now();
+                auto cheapest = HouseMap.getCheapestHouses(city_filter, house_num, bed_filter, bath_filter, zip_filter);
+                auto end = std::chrono::steady_clock::now();
+                std::chrono::steady_clock::duration query_duration = end - start;
+                auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(query_duration).count();
+                system("cls");
+                std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
+                for (size_t i = 0; i < cheapest.size(); i++) {
+                    cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                }
+            
+                std::cout << "Time taken to fetch houses using Hash Map: " << total_ms << " ms" << std::endl;
             }
             cout << "1: Go Back to Main Menu" << endl;
             int back_option;
