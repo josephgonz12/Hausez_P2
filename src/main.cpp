@@ -105,7 +105,7 @@ int main() {
             std::cin >> house_num;
             std::cout << "Which data structure would you like to use?" << std::endl;
             std::cout << "1: Skip List" << std::endl;
-            std::cout << "2: Heap" << std::endl;
+            std::cout << "2: Hash Map" << std::endl;
             std::cout << "Select an option: ";
             int ds_option;
             std::cin >> ds_option;
