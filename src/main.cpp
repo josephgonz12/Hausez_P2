@@ -116,11 +116,15 @@ int main() {
                 std::chrono::steady_clock::duration query_duration = end - start;
                 auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(query_duration).count();
                 system("cls");
-                std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
-                for (size_t i = 0; i < cheapest.size(); i++) {
-                    cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                if (cheapest.empty()) {
+                    std::cout << "No houses found! Try changing your filters!" << std::endl;
                 }
-            
+                else {
+                    std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
+                    for (size_t i = 0; i < cheapest.size(); i++) {
+                        cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                    }
+                }
                 std::cout << "Time taken to fetch houses using Skip List: " << total_ms << " ms" << std::endl;
             }
             if (ds_option == 2){
@@ -130,11 +134,15 @@ int main() {
                 std::chrono::steady_clock::duration query_duration = end - start;
                 auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(query_duration).count();
                 system("cls");
-                std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
-                for (size_t i = 0; i < cheapest.size(); i++) {
-                    cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                if (cheapest.empty()) {
+                    std::cout << "No houses found! Try changing your filters" << std::endl;
                 }
-            
+                else {
+                    std::cout << "Top " << house_num << " Cheapest Houses:" << std::endl;
+                    for (size_t i = 0; i < cheapest.size(); i++) {
+                        cout << "House " << (i + 1) << ": Price: $" << cheapest[i].price << ", Beds: " << cheapest[i].beds << ", Baths: " << cheapest[i].baths << ", City: " << cheapest[i].city << ", Zip Code: " << cheapest[i].zip_code << endl;
+                    }
+                }
                 std::cout << "Time taken to fetch houses using Hash Map: " << total_ms << " ms" << std::endl;
             }
             cout << "1: Go Back to Main Menu" << endl;
