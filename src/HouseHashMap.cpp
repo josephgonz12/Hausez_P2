@@ -15,52 +15,29 @@ void HouseHashMap::insert(const House& house){
 
 // Get all houses in a specific city
 std::vector<House> HouseHashMap::getHousesByCity(const std::string& city){
-  if (city == ""){
-    std::vector<House> allHouses;
-    for (const auto& pair : cityMap) {
-        allHouses.insert(allHouses.end(), pair.second.begin(), pair.second.end());
-    }
-    return allHouses;
-  }
   if (cityMap.find(city) != cityMap.end()){
     return cityMap[city];
     }
     return {}; // Return empty vector if city not found
 }
 
-// Get cheapest houses in a city (sorted by price) with optional filters
-std::vector<House> HouseHashMap::getCheapestHouses(const std::string &city, int count, int beds, int baths, std::string zip_code){
-  // Get all houses for the city
+// Get cheapest houses in a city (sorted by price)
+std::vector<House> HouseHashMap::getCheapesHouses(const std::string &city, int count){
   std::vector<House> houses = getHousesByCity(city);
-
-  if (houses.empty()) {
-      return {};
-  }
-
-  // Apply additional filters (beds, baths, zip)
-  std::vector<House> filtered;
-  filtered.reserve(houses.size());
-
-  for (const auto &h : houses) {
-    if (beds != 0 && h.beds != beds) continue;
-    if (baths != 0 && h.baths != baths) continue;
-    if (zip_code != "" && h.zip_code != zip_code) continue;
-    filtered.push_back(h);
-  }
-
-  if (filtered.empty()) {
-    return {};
-  }
-
-  // Sort by price (ascending)
-  std::sort(filtered.begin(), filtered.end());
-
-  // Return up to 'count' elements
-  if (filtered.size() > static_cast<size_t>(count)) {
-      return std::vector<House>(filtered.begin(), filtered.begin() + count);
-  }
-
-  return filtered;
+    
+    if (houses.empty()) {
+        return {};
+    }
+    
+    // Sort by price (ascending)
+    std::sort(houses.begin(), houses.end());
+    
+    // Return only first 'count' elements
+    if (houses.size() > static_cast<size_t>(count)) {
+        return std::vector<House>(houses.begin(), houses.begin() + count);  // ← Changed this line
+    }
+    
+    return houses;
 }
 
 // Check if a city exist in the map
