@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "name": "Build and Debug Hausez (main+House+SkipList+HouseHashMap)",
+            "name": "Build and Debug Hausez (main+House+SkipList)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\src\\Hausez.exe",
@@ -15,7 +15,7 @@
             "cwd": "${workspaceFolder}\\src",
             "environment": [],
             "externalConsole": true,
-            "preLaunchTask": "build Hausez (main+House+SkipList+HouseHashMap)",
+            "preLaunchTask": "build Hausez (main+House+SkipList)",
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe",
             "setupCommands": [
