@@ -1,7 +1,7 @@
 #include <string>
 #include "House.h"
 using namespace std;
-House::House(int price, int beds, int baths, string city, int zip_code)
+House::House(int price, int beds, int baths, std::string city, std::string zip_code)
 {
     this->price = price;
     this->beds = beds;

@@ -5,7 +5,7 @@ SkipList::SkipList() {
     maxLevel = 0;
     prob = 0.5;
     const int maxSize = 16;
-    head = new Node("dummy", -1, maxSize, 0, 0, 0);
+    head = new Node("dummy", -1, maxSize, 0, 0, "0");
 }
 
 SkipList::~SkipList() {
@@ -29,7 +29,7 @@ int SkipList::getRandLevel() {
 }
 
 
-void SkipList::insert(std::string state, int price, int beds, int bath, int zip_code){
+void SkipList::insert(std::string state, int price, int beds, int bath, std::string zip_code){
     std::vector<Node*> update(head->next.size(), nullptr);
     Node* curr = head;
 
@@ -59,13 +59,32 @@ void SkipList::insert(std::string state, int price, int beds, int bath, int zip_
 
 }
 
-std::vector<House> SkipList::getCheapest(int num) {
+std::vector<House> SkipList::getCheapest(int num, int beds, int baths, std::string city, std::string zip_code) {
     std::vector<House> cheapestHouses;
     Node* curr = head->next[0];
-    for (int i = 0; i < num; i++) {
-        cheapestHouses.push_back(curr->house);
+    
+    while (curr != nullptr && cheapestHouses.size() < num) {
+        bool matched = true;
+        
+        if (beds != 0 && curr->house.beds != beds) {
+            matched = false;
+        }
+        if (baths != 0 && curr->house.baths != baths) {
+            matched = false;
+        }
+        if (city != "" && curr->house.city != city) {
+            matched = false;
+        }
+        if (zip_code != "" && curr->house.zip_code != zip_code) {
+            matched = false;
+        }
+        
+        if (matched == true) {
+            cheapestHouses.push_back(curr->house);
+        }
         curr = curr->next[0];
     }
+    
     return cheapestHouses;
 }
 
@@ -104,7 +123,7 @@ std::vector<House> SkipList::filterByBaths(int bath_count) {
     return byBaths;
 }
 
-std::vector<House> SkipList::filterByZip(int zip_code) {
+std::vector<House> SkipList::filterByZip(string zip_code) {
     std::vector<House> byZip;
     Node* curr = head->next[0];
     while (curr != nullptr) {
