@@ -1,95 +1,151 @@
-//
-// Created by Lee Guercin on 11/3/25.
-//
 #include "HouseHashMap.h"
+#include <algorithm>
+#include <iostream>
 
-HouseHashMap::HouseHashMap() {
-
+HouseHashMap::HouseHashMap(){
+    capacity = 101;
+    size = 0;
+    loadFactorThreshold = 0.75;
+    buckets.resize(capacity);
 }
 
-// Add a house to the map
-void HouseHashMap::insert(const House& house){
-  cityMap[house.city].push_back(house);
-
+HouseHashMap::~HouseHashMap(){
 }
 
-// Get all houses in a specific city
-std::vector<House> HouseHashMap::getHousesByCity(const std::string& city){
-  if (city == ""){
+int HouseHashMap::hash(const std::string& city) const{
+    unsigned long hashValue = 5381;
+    for(char c : city){
+        hashValue = ((hashValue << 5) + hashValue) + c;
+    }
+    return hashValue % capacity;
+}
+
+void HouseHashMap::resize(){
+  int oldCapacity = capacity;
+  capacity = capacity * 2 + 1;
+
+  std::vector<Bucket> oldBuckets = buckets;
+  buckets.clear();
+  buckets.resize(capacity);
+  size = 0;
+
+  for(int i = 0; i < oldCapacity; i++){
+    for(const House& house : oldBuckets[i].houses){
+      insert(house.city, house.price, house.beds, house.baths, house.zip_code);
+    }
+  }
+}
+
+std::vector<House> HouseHashMap::getAllHouses() const {
     std::vector<House> allHouses;
-    for (const auto& pair : cityMap) {
-        allHouses.insert(allHouses.end(), pair.second.begin(), pair.second.end());
+    for (const Bucket& bucket : buckets) {
+        for (const House& house : bucket.houses) {
+            allHouses.push_back(house);
+        }
     }
     return allHouses;
-  }
-  if (cityMap.find(city) != cityMap.end()){
-    return cityMap[city];
+}
+
+void HouseHashMap::insert(std::string city, int price, int beds, int baths, std::string zip_code) {
+    float loadFactor = static_cast<float>(size) / capacity;
+    if (loadFactor > loadFactorThreshold) {
+        resize();
     }
-    return {}; // Return empty vector if city not found
+    
+    int index = hash(city);
+    House newHouse(price, beds, baths, city, zip_code);
+    buckets[index].houses.push_back(newHouse);
+    size++;
 }
 
-// Get cheapest houses in a city (sorted by price) with optional filters
-std::vector<House> HouseHashMap::getCheapestHouses(const std::string &city, int count, int beds, int baths, std::string zip_code){
-  // Get all houses for the city
-  std::vector<House> houses = getHousesByCity(city);
-
-  if (houses.empty()) {
-      return {};
-  }
-
-  // Apply additional filters (beds, baths, zip)
-  std::vector<House> filtered;
-  filtered.reserve(houses.size());
-
-  for (const auto &h : houses) {
-    if (beds != 0 && h.beds != beds) continue;
-    if (baths != 0 && h.baths != baths) continue;
-    if (zip_code != "" && h.zip_code != zip_code) continue;
-    filtered.push_back(h);
-  }
-
-  if (filtered.empty()) {
-    return {};
-  }
-
-  // Sort by price (ascending)
-  std::sort(filtered.begin(), filtered.end());
-
-  // Return up to 'count' elements
-  if (filtered.size() > static_cast<size_t>(count)) {
-      return std::vector<House>(filtered.begin(), filtered.begin() + count);
-  }
-
-  return filtered;
+std::vector<House> HouseHashMap::getCheapest(int num, int beds, int baths, std::string city, std::string zip_code) {
+    std::vector<House> allHouses = getAllHouses();
+    
+    std::sort(allHouses.begin(), allHouses.end(), [](const House& a, const House& b) {
+        return a.price < b.price;
+    });
+    
+    std::vector<House> result;
+    
+    for (const House& house : allHouses) {
+        if (result.size() >= static_cast<size_t>(num)) {
+            break;
+        }
+        
+        bool match = true;
+        
+        if (beds != 0 && house.beds != beds) {
+            match = false;
+        }
+        if (baths != 0 && house.baths != baths) {
+            match = false;
+        }
+        if (city != "" && house.city != city) {
+            match = false;
+        }
+        if (zip_code != "" && house.zip_code != zip_code) {
+            match = false;
+        }
+        
+        if (match) {
+            result.push_back(house);
+        }
+    }
+    
+    return result;
 }
 
-// Check if a city exist in the map
-bool HouseHashMap::hasCity(const std::string &city)
-{
-  return cityMap.find(city) != cityMap.end();
+std::vector<House> HouseHashMap::filterByCity(std::string city) {
+    std::vector<House> result;
+    int index = hash(city);
+    
+    for (const House& house : buckets[index].houses) {
+        if (house.city == city) {
+            result.push_back(house);
+        }
+    }
+    
+    return result;
 }
 
-// Get all available cityes
-std::vector<std::string> HouseHashMap::getAllCities()
-{
-  std::vector<std::string> cities;
-  for(const auto& pair : cityMap){
-    cities.push_back(pair.first);
-  }
-    return cities;
+std::vector<House> HouseHashMap::filterByBeds(int bed_count) {
+    std::vector<House> result;
+    
+    for (const Bucket& bucket : buckets) {
+        for (const House& house : bucket.houses) {
+            if (house.beds == bed_count) {
+                result.push_back(house);
+            }
+        }
+    }
+    
+    return result;
 }
 
-// Get total number of houses in a city
-int HouseHashMap::getHouseCount(const std::string &city)
-{
-  if(hasCity(city)){
-    return cityMap[city].size();
-  }
-    return 0;
+std::vector<House> HouseHashMap::filterByBaths(int bath_count) {
+    std::vector<House> result;
+    
+    for (const Bucket& bucket : buckets) {
+        for (const House& house : bucket.houses) {
+            if (house.baths == bath_count) {
+                result.push_back(house);
+            }
+        }
+    }
+    
+    return result;
 }
 
-//Clear all data
-void HouseHashMap::clear(){
-  cityMap.clear();
+std::vector<House> HouseHashMap::filterByZip(std::string zip_code) {
+    std::vector<House> result;
+    
+    for (const Bucket& bucket : buckets) {
+        for (const House& house : bucket.houses) {
+            if (house.zip_code == zip_code) {
+                result.push_back(house);
+            }
+        }
+    }
+    
+    return result;
 }
-
