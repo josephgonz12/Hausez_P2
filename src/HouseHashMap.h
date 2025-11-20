@@ -23,7 +23,8 @@ class HouseHashMap{
 
       std::vector<House> getHousesByCity(const std::string& city);
 
-      std::vector<House> getCheapesHouses(const std::string &city, int count = 10);
+  
+  std::vector<House> getCheapestHouses(const std::string &city, int count = 10, int beds = 0, int baths = 0, std::string zip_code = "");
 
       bool hasCity(const std::string& city);
 
