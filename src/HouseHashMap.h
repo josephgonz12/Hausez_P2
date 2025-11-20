@@ -1,3 +1,10 @@
+//
+// Created by Lee Guercin on 11/2/25.
+//
+
+#ifndef HOUSEHASHMAP_H
+#define HOUSEHASHMAP_H
+
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -7,29 +14,24 @@
 
 class HouseHashMap{
   private:
-    struct Bucket{
-      std::vector<House> houses;
-    };
-
-    std::vector<Bucket> buckets;
-    int capacity;
-    int size;
-    float loadFactorThreshold;
-
-    int hash(const std::string& city) const;
-
-    void resize();
-
-    std::vector<House> getAllHouses() const;
+    std::unordered_map<std::string, std::vector<House>> cityMap;
 
   public:
-    HouseHashMap();
-    ~HouseHashMap();
+      HouseHashMap();
+      
+      void insert(const House& house);
 
-    void insert(std::string city, int price, int beds, int baths, std::string zip_code);
-    std::vector<House> getCheapest(int num, int beds = 0, int baths = 0, std::string city = "", std::string zip_code = "");
-    std::vector<House> filterByCity(std::string city);
-    std::vector<House> filterByBeds(int bed_count);
-    std::vector<House> filterByBaths(int bath_count);
-    std::vector<House> filterByZip(std::string zip_code);
+      std::vector<House> getHousesByCity(const std::string& city);
+
+  
+  std::vector<House> getCheapestHouses(const std::string &city, int count = 10, int beds = 0, int baths = 0, std::string zip_code = "");
+
+      bool hasCity(const std::string& city);
+
+      std::vector<std::string> getAllCities();
+
+      int getHouseCount(const std::string& city);
+
+      void clear(); 
 };
+#endif //HOUSEHASHMAP_H
